@@ -1,0 +1,11 @@
+{
+"tasks": ["filter"],
+"output_dir": "/home/yangqi/Processing_final_DFT_opted_structs/V5-/test",
+"random_seed": 0,
+"filtering": {
+"sort": true,
+"input_file": "/home/yangqi/Processing_final_DFT_opted_structs/V5-/test/En_structs_info.txt","align": true,
+"pre_sort": true,
+"max_diff_report": 1.0,"max_diff": 0.25
+	}
+}

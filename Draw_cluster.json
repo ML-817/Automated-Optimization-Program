@@ -1,0 +1,10 @@
+{
+"tasks": ["draw"],
+"output_dir": "/home/yangqi/Processing_final_DFT_opted_structs/V5-/test/Processing-2023-02-20-16_55",
+"random_seed": 0,
+"report": {
+"input_file": "/home/yangqi/Processing_final_DFT_opted_structs/V5-/test/fil_result.xyz.0",
+"number": 9999,
+"ratio": 1.6
+	}
+}
