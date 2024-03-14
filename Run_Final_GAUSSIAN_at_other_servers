@@ -1,0 +1,58 @@
+#! /bin/bash  
+
+############################################# input information ####################################################
+input_information='./Edit_info_file/gene-v05.dat'
+user_name=$(awk 'NR==25{print $2}' ${input_information})
+cluster=$(awk 'NR==25{print $3}' ${input_information})
+multi=$(awk 'NR==25{print $4}' ${input_information})
+server_num_1=$(awk 'NR==25{print $5}' ${input_information})
+server_num_2=$(awk 'NR==25{print $6}' ${input_information})
+server_num_3=$(awk 'NR==25{print $7}' ${input_information})
+nproc=$(($(awk 'NR==28{print $2}' ${input_information})))
+new_nproc=$[${nproc}]
+Final_GAUSSIAN_1_line=$(ls Final_GAUSSIAN_run_1 | wc -l)
+Final_GAUSSIAN_2_line=$(ls Final_GAUSSIAN_run_2 | wc -l)
+Final_GAUSSIAN_3_line=$(ls Final_GAUSSIAN_run_3 | wc -l)
+
+Cur_Dir=$(pwd)
+echo $Cur_Dir
+
+ssh server${server_num_1} "cd ${cluster}/${multi}; mkdir Final-DFT"
+ssh server${server_num_2} "cd ${cluster}/${multi}; mkdir Final-DFT"
+ssh server${server_num_3} "cd ${cluster}/${multi}; mkdir Final-DFT"
+
+cd $Cur_Dir
+mkdir Final_DFT_results
+scp -r ${cluster}-*.gjf server${server_num_1}:/home/${user_name}/${cluster}/${multi}/Final-DFT
+scp -r Final_GAUSSIAN_run_1 server${server_num_1}:/home/${user_name}/${cluster}/${multi}/Final-DFT
+
+scp -r ${cluster}-*.gjf server${server_num_2}:/home/${user_name}/${cluster}/${multi}/Final-DFT
+scp -r Final_GAUSSIAN_run_2 server${server_num_2}:/home/${user_name}/${cluster}/${multi}/Final-DFT
+
+scp -r ${cluster}-*.gjf server${server_num_3}:/home/${user_name}/${cluster}/${multi}/Final-DFT
+scp -r Final_GAUSSIAN_run_3 server${server_num_3}:/home/${user_name}/${cluster}/${multi}/Final-DFT
+
+
+
+ssh server${server_num_3} "cd /home/${user_name}/${cluster}/${multi}/Final-DFT; chmod 770 Final_GAUSSIAN_run_3; ./Final_GAUSSIAN_run_3 " &
+
+ssh server${server_num_2} "cd /home/${user_name}/${cluster}/${multi}/Final-DFT; chmod 770 Final_GAUSSIAN_run_2; ./Final_GAUSSIAN_run_2 " & 
+
+ssh server${server_num_1} "cd /home/${user_name}/${cluster}/${multi}/Final-DFT; sed -i 's/%nproc=        ${nproc}/%nproc=        ${new_nproc}/g' *.gjf; chmod 770 Final_GAUSSIAN_run_1; ./Final_GAUSSIAN_run_1 " 
+
+wait
+
+ssh server${server_num_1} "cd /home/${user_name}/${cluster}/${multi}/Final-DFT; scp -r *.gjf *.log *.chk servergpu2:$Cur_Dir/Final_DFT_results"
+
+ssh server${server_num_2} "cd /home/${user_name}/${cluster}/${multi}/Final-DFT; scp -r *.gjf *.log *.chk servergpu2:$Cur_Dir/Final_DFT_results"
+
+ssh server${server_num_3} "cd /home/${user_name}/${cluster}/${multi}/Final-DFT; scp -r *.gjf *.log *.chk servergpu2:$Cur_Dir/Final_DFT_results"
+
+cd $Cur_Dir; rm -f ${cluster}-*.gjf
+
+echo End of running DNN-TL-GA or GA Program! 
+
+
+
+
+

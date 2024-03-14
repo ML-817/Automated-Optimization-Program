@@ -1,0 +1,42 @@
+{
+    "tasks": [
+        "opt"
+    ], 
+    "random_seed": 0, 
+    "write_summary": 0, 
+    "operating_localtime": 0, 
+    "fitting_net": {
+        "shuffle_per": 1, 
+        "layers": [
+            "tanh:  .. > . 40", 
+            "tanh:  .. > . 70", 
+            "tanh:  .. > . 60", 
+            "softplus: .. > . 2", 
+            "softplus: B. C. > 40 .", 
+            "softplus:    .. > 10 .", 
+            "reshape", 
+            "average: 0"
+        ], 
+        "max_lambda": 0, 
+        "nesterov": false, 
+        "auto": true, 
+        "show_epoch": 1, 
+        "dump_network": true, 
+        "step_decay_factor": 60, 
+        "load_network": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/Fitted-Network/fit_network.dill.0", 
+        "epochs": 1000, 
+        "step": 0.1, 
+        "batch_size": 50, 
+        "momentum": 0.7, 
+        "step_decay": true
+    }, 
+    "optimization": {
+        "opt_number": -1, 
+        "load_network": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/Fitted-Network/fit_network.dill.0", 
+        "min_max_ext_ratio": 0.05, 
+        "input_file": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/Rh01V001O02-PBPB.gjf"
+    }, 
+    "output_dir": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/", 
+    "gpu": "cuda0", 
+    "Use_DNN_OPT_for_gene": "YES"
+}

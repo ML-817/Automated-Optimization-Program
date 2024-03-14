@@ -1,0 +1,18 @@
+{
+    "tasks": [
+        "create"
+    ], 
+    "creation": {
+        "2d": 0.52, 
+        "number": 12, 
+        "method": "blda", 
+        "name": "Rh1V1O2", 
+        "order": 2
+    }, 
+    "filtering-create": {
+        "max_diff": 0.25, 
+        "max_diff_report": 1.0
+    }, 
+    "random_seed": 0, 
+    "output_dir": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/Initial_seeds_xyz"
+}
