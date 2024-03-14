@@ -1,0 +1,61 @@
+{
+    "tasks": [
+        "fit"
+    ], 
+    "random_seed": 0, 
+    "write_summary": true, 
+    "Transfer_learning_between_different_clusters": "NO", 
+    "operating_localtime": 0, 
+    "fitting_net": {
+        "shuffle_per": 1, 
+        "layers": [
+            "tanh:  .. > . 40", 
+            "tanh:  .. > . 70", 
+            "tanh:  .. > . 60", 
+            "softplus: .. > . 2", 
+            "softplus: B. C. > 40 .", 
+            "softplus:    .. > 10 .", 
+            "reshape", 
+            "average: 0"
+        ], 
+        "max_lambda": 0, 
+        "nesterov": false, 
+        "auto": true, 
+        "show_epoch": 1, 
+        "dump_network": true, 
+        "step_decay_factor": 60, 
+        "load_network": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/Fitted-Network/Network-1/fit_network.dill.0", 
+        "epochs": 200, 
+        "step": 0.1, 
+        "batch_size": 50, 
+        "momentum": 0.7, 
+        "step_decay": true
+    }, 
+    "output_dir": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/Fitted-Network", 
+    "gpu": "cuda0", 
+    "fitting": {
+        "second_order": false, 
+        "degree": 4, 
+        "input_file": "/home/yangqi/GA_DNN_TL_OPT_STRUCTS/Test_program/Rh1V1O2-/M2/data/Logs-en.xyz.1", 
+        "param_save": 1, 
+        "energy_unit": "hartree", 
+        "sample_number": [
+            180000, 
+            8000, 
+            8000
+        ], 
+        "min_max_ext_ratio": 0.05, 
+        "orig_and_diff": 0, 
+        "pre_nets": [], 
+        "energy_cut": "+0.4", 
+        "scale_lengths": false, 
+        "sample_ratio": [
+            9.0, 
+            1.0, 
+            1.0
+        ], 
+        "diff": false, 
+        "exp_length": 4.0, 
+        "shuffle_input": true
+    }
+}

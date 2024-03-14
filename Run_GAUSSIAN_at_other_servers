@@ -1,0 +1,56 @@
+#! /bin/bash  
+
+############################################# input information ####################################################
+input_information='./Edit_info_file/gene-v05.dat'
+user_name=$(awk 'NR==25{print $2}' ${input_information})
+cluster=$(awk 'NR==25{print $3}' ${input_information})
+multi=$(awk 'NR==25{print $4}' ${input_information})
+server_num_1=$(awk 'NR==25{print $5}' ${input_information})
+server_num_2=$(awk 'NR==25{print $6}' ${input_information})
+server_num_3=$(awk 'NR==25{print $7}' ${input_information})
+nproc=$(($(awk 'NR==28{print $2}' ${input_information})))
+new_nproc=$[${nproc}]
+Gaussian_1_lines=$(ls GUASSIAN_run_1 | wc -l)
+Gaussian_2_lines=$(ls GUASSIAN_run_2 | wc -l)
+Gaussian_3_lines=$(ls GUASSIAN_run_3 | wc -l)
+
+
+Cur_Dir=$(pwd)
+echo $Cur_Dir
+
+ssh server${server_num_1} "mkdir ${cluster}; cd ${cluster}; mkdir ${multi}"
+ssh server${server_num_2} "mkdir ${cluster}; cd ${cluster}; mkdir ${multi}"
+ssh server${server_num_3} "mkdir ${cluster}; cd ${cluster}; mkdir ${multi}"
+
+cd $Cur_Dir 
+scp -r *.gjf server${server_num_1}:/home/${user_name}/${cluster}/${multi}
+scp -r GUASSIAN_run_1 server${server_num_1}:/home/${user_name}/${cluster}/${multi}
+
+scp -r *.gjf server${server_num_2}:/home/${user_name}/${cluster}/${multi}
+scp -r GUASSIAN_run_2 server${server_num_2}:/home/${user_name}/${cluster}/${multi}
+
+scp -r *.gjf server${server_num_3}:/home/${user_name}/${cluster}/${multi}
+scp -r GUASSIAN_run_3 server${server_num_3}:/home/${user_name}/${cluster}/${multi}
+
+
+if [ $Gaussian_3_lines -eq 1 ];then
+ssh server${server_num_3} "cd /home/${user_name}/${cluster}/${multi}; chmod 770 GUASSIAN_run_3; ./GUASSIAN_run_3 " &
+fi
+
+if [ $Gaussian_2_lines -eq 1 ];then
+ssh server${server_num_2} "cd /home/${user_name}/${cluster}/${multi}; chmod 770 GUASSIAN_run_2; ./GUASSIAN_run_2 " & 
+fi
+
+ssh server${server_num_1} "cd /home/${user_name}/${cluster}/${multi}; sed -i 's/%nproc=        ${nproc}/%nproc=        ${new_nproc}/g' *.gjf; chmod 770 GUASSIAN_run_1; ./GUASSIAN_run_1 " 
+
+wait
+
+ssh server${server_num_1} "cd /home/${user_name}/${cluster}/${multi}; scp -r *.log servergpu2:$Cur_Dir; rm -f GUASSIAN_run_1"
+
+ssh server${server_num_2} "cd /home/${user_name}/${cluster}/${multi}; scp -r *.log servergpu2:$Cur_Dir; rm -f GUASSIAN_run_2"
+
+ssh server${server_num_3} "cd /home/${user_name}/${cluster}/${multi}; scp -r *.log servergpu2:$Cur_Dir; rm -f GUASSIAN_run_3"
+
+cd $Cur_Dir; rm -f GUASSIAN_run_* 
+
+
